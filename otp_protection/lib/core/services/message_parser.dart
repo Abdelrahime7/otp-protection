@@ -1,3 +1,4 @@
+import 'package:otp_protection/core/models/sms_message.dart';
 import 'package:otp_protection/core/utils/otp_result.dart';
 
 class MessageParser {
@@ -15,8 +16,8 @@ class MessageParser {
 
   static final _otpRegex = RegExp(r'\b\d{4,8}\b');
 
-  OtpResult parse(String message) {
-    final normalized = message.toLowerCase();
+  OtpResult parse(SmsMessage sms) {
+    final normalized = sms.content.toLowerCase();
 
     final hasKeyword = _otpKeywords.any(
       normalized.contains,
@@ -29,7 +30,7 @@ class MessageParser {
       );
     }
 
-    final match = _otpRegex.firstMatch(message);
+    final match = _otpRegex.firstMatch(sms.content);
 
     if (match == null) {
       return OtpResult(
