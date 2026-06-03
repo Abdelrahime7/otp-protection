@@ -2,9 +2,9 @@ import 'package:otp_protection/core/contracts/protection_strategy.dart';
 import 'package:otp_protection/core/models/protection_event.dart';
 
 class EventPublisher {
-  final List<EventSubscriber> _subscribers = [];
+ final  List<EventSubscriber> _subscribers = [];
 
-  void subscribe(EventSubscriber subscriber) {
+   void  subscribe(EventSubscriber subscriber) {
     _subscribers.add(subscriber);
   }
 

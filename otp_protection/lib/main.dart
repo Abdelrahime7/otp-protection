@@ -1,6 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:otp_protection/core/models/sms_message.dart';
+import 'package:otp_protection/core/prtection_srategies/yellowarning.dart';
+import 'package:otp_protection/core/routing/router_config.dart';
+import 'package:otp_protection/core/services/call_detector.dart';
+import 'package:otp_protection/core/services/event_puplisher.dart';
+import 'package:otp_protection/core/services/message_parser.dart';
+import 'package:otp_protection/core/services/protection%20_engine.dart';
+
 
 void main() {
+ WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
@@ -10,38 +20,44 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: .fromSeed(seedColor: Colors.deepPurple),
-      ),
-      home:   MyHomePage(),
+    return ScreenUtilInit(
+      designSize: const Size(375, 812),
+      child: MaterialApp.router(
+          routerConfig: AppRouterConfig.router,
+          ),
     );
+   
   }
 }
 
 // ignore: non_constant_identifier_names
-class MyHomePage extends  Widget {
+class MyHomePage extends  StatelessWidget {
+
+
   const MyHomePage();
+
+ void test (){
+  EventPublisher publisher = EventPublisher();
+  Yellowarning warning = Yellowarning();
+  
+  publisher.subscribe(warning);
+  ProtectionEngine engine = ProtectionEngine(parser:MessageParser(), 
+  callDetector:CallDetector(), publisher:publisher);
+   SmsMessage sms = SmsMessage(content: "Your OTP is 1234",
+    sender: "baridi mob", 
+    receivedAt: DateTime(2020,9,9) );
+    
+     engine.handleSms(sms);
+ } 
   
   @override
-  Element createElement() {
-    // TODO: implement createElement
-    throw UnimplementedError();
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body:
+       Center(child:
+        ElevatedButton(onPressed:test, child: Text("Test"),)
+       )
+
+    );
   }
 }
