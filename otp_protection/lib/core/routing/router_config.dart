@@ -1,14 +1,19 @@
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:otp_protection/core/routing/app_routes.dart';
 import 'package:otp_protection/main.dart';
 
 class AppRouterConfig {
+  static final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
-  static GoRouter router = GoRouter(
+  static final GoRouter router = GoRouter(
+    navigatorKey: navigatorKey,
     initialLocation: AppRoutes.myHomePage,
     routes: [
-    GoRoute(path: AppRoutes.myHomePage,
-     builder: (context, state) => const MyHomePage()),
-    ]
+      GoRoute(
+        path: AppRoutes.myHomePage,
+        builder: (context, state) => const MyHomePage(),
+      ),
+    ],
   ); 
 }
