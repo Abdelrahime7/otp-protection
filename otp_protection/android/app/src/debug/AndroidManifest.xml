@@ -1,34 +1,4 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.app">
-
-    <!-- Permissions -->
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.RECEIVE_SMS"/>
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-
-    <application
-        android:label="YourApp"
-        android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
-
-        <!-- 🔥 THIS IS WHAT YOU ARE MISSING -->
-        <receiver
-            android:name=".SmsReceiver"
-            android:exported="true">
-
-            <intent-filter>
-                <action android:name="android.provider.Telephony.SMS_RECEIVED"/>
-            </intent-filter>
-
-        </receiver>
-
-        <!-- Your Flutter activity (already exists in project) -->
-        <activity
-            android:name=".MainActivity"
-            android:exported="true"
-            android:launchMode="singleTop">
-        </activity>
-
-    </application>
-
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Debug overlay manifest — keep minimal.
+         All permissions, receivers, and services are declared in the main AndroidManifest.xml. -->
 </manifest>
