@@ -1,3 +1,4 @@
 class AppRoutes {
-  static String myHomePage ="/Myhomepage";
+  static const String myHomePage = '/home';
+  static const String settings   = '/settings';
 }
