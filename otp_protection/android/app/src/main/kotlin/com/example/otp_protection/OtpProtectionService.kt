@@ -75,29 +75,25 @@ class OtpProtectionService : Service() {
     // Flutter engine bootstrap
     // ──────────────────────────────────────────────────────────────────────────
 
+    /**
+     * Use the existing Flutter engine's MethodChannel from MainActivity.
+     * The channel is set in MainActivity.configureFlutterEngine and stored
+     * in its companion object's static `channel` property. This avoids creating
+     * a separate FlutterEngine which would isolate the MethodChannel from the UI
+     * isolate, ensuring that events published from the service are received by
+     * the Dart side's ProtectionBridge handler.
+     */
     private fun bootFlutterEngine() {
-        val engine = FlutterEngine(this)
-
-        // Register the MethodChannel BEFORE executing Dart so the handler is
-        // in place before any Dart code runs.
-        val methodChannel = MethodChannel(
-            engine.dartExecutor.binaryMessenger,
-            "protection/channel"
-        )
-        channel = methodChannel
-
-        // Start Dart execution from the default entrypoint (main()).
-        engine.dartExecutor.executeDartEntrypoint(
-            DartExecutor.DartEntrypoint.createDefault()
-        )
-
-        flutterEngine = engine
-
-        // Flush any events that arrived before the engine was ready.
-        synchronized(pendingEvents) {
-            pendingEvents.forEach { name -> publishOnMainThread(name) }
-            pendingEvents.clear()
+        // Obtain the channel that was created by MainActivity.
+        try {
+            // Reference MainActivity's static channel.
+            channel = MainActivity.channel
+        } catch (e: Exception) {
+            // If for any reason MainActivity.channel is not yet set, keep channel null.
+            // Events will be queued in `pendingEvents` until the channel becomes available.
+            channel = null
         }
+        // No additional engine bootstrapping is required because we reuse the UI engine.
     }
 
     // ──────────────────────────────────────────────────────────────────────────

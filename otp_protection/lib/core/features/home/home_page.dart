@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter/services.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -45,28 +46,24 @@ class HomePage extends StatelessWidget {
               const SizedBox(height: 32),
         
               const Text(
-                "Welcome",
+                "Active Protection Running",
                 style: TextStyle(
-                  fontSize: 30,
+                  fontSize: 24,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
                 ),
               ),
-        
-              const SizedBox(height: 10),
-        
+              const SizedBox(height: 8),
               const Text(
-                "OTP Protection keeps your verification codes secure by "
-                "monitoring incoming SMS messages in the background.\n\n"
-                "The protection service continues running even when the app "
-                "is minimized. You can change this behavior at any time from "
-                "the Settings page.",
+                "Listening for OTP and call state...",
                 style: TextStyle(
-                  color: Colors.white70,
-                  height: 1.6,
                   fontSize: 16,
+                  color: Colors.white70,
                 ),
               ),
+              const SizedBox(height: 30),
+        
+             
         
               const SizedBox(height: 30),
         
